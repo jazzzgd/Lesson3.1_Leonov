@@ -3572,9 +3572,10 @@ MonoBehaviour:
   - {fileID: 755655703}
   - {fileID: 755655703}
   _sphere: {fileID: 1098802002}
-  _gate1: {fileID: 1411790269}
-  _gate2: {fileID: 1937416767}
-  _lifeCounter: 10
+  _gates:
+  - {fileID: 1411790273}
+  - {fileID: 1937416771}
+  _numberOfLife: 10
   _camera1: {fileID: 963194228}
   _camera2: {fileID: 1810772696}
 --- !u!4 &1540636620

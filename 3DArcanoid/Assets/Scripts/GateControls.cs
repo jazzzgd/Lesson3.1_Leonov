@@ -1,25 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class GateControls : MonoBehaviour
+namespace Arcanoid
 {
-
-    //Объявить делегат
-    public delegate void SphereLeftDelegate();
-
-    //Объявление события
-    public event SphereLeftDelegate SphereLeftEvent;
-
-    [Header("Main Sphere"), SerializeField]
-    public Transform _sphere;
-
-    private void OnTriggerEnter(Collider _mustBeSphereCollider)
+    public class GateControls : MonoBehaviour
     {
-        if ((_sphere.GetComponent<Collider>() == _mustBeSphereCollider) && (SphereLeftEvent != null))
-        {
-            SphereLeftEvent();
-        }
+        //Объявление события
+        public event Action OnDetect;
 
+        [Header("Main Sphere"), SerializeField]
+        public Transform _sphere;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out SphereControls sphere))
+            {
+                OnDetect?.Invoke();
+            }
+        }
     }
 }

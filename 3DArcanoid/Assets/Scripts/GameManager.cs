@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -20,13 +19,12 @@ namespace Arcanoid
 
         //Определить ворота
         [Header("Gates"), SerializeField]
-        public Transform _gate1;
-        public Transform _gate2;
+        private List<GateControls> _gates;
 
 
         //Счётчик жизней
         [Header("Life Count"), SerializeField]
-        private int _lifeCounter = 10;
+        private int _numberOfLife = 10;
 
         //Камеры
         [Header("Cameras"), SerializeField]
@@ -39,7 +37,7 @@ namespace Arcanoid
         {
             RotateObstacles();
             ObstacleEventHandler();
-            LifeEventHandler();
+            InitGates();
         }
 
         private void RotateObstacles()
@@ -91,23 +89,22 @@ namespace Arcanoid
             _sphere.GetComponent<SphereControls>().DesactivateObstacleEvent += DesactivateObstacleInMassive;
         }
 
-        private void LifeEventHandler()
+        private void InitGates()
         {
-            _gate1.GetComponent<GateControls>().SphereLeftEvent += LifeCounter;
-            _gate2.GetComponent<GateControls>().SphereLeftEvent += LifeCounter;
+            _gates.ForEach(gate => gate.OnDetect += UpdateLifeCount);
         }
 
         //Счёт жизней
-        private void LifeCounter()
+        private void UpdateLifeCount()
         {
-            _lifeCounter -= 1;
-            if (_lifeCounter > 0)
+            _numberOfLife -= 1;
+            if (_numberOfLife > 0)
             {
-                Debug.Log("Life Count: " + _lifeCounter);
+                Debug.Log("Life Count: " + _numberOfLife);
             }
             else
             {
-                Debug.Log("Life Count: " + _lifeCounter + " GAME OVER.");
+                Debug.Log("Life Count: " + _numberOfLife + " GAME OVER.");
                 EditorApplication.isPaused = true;
             }
             //Возврат и остановка шара
